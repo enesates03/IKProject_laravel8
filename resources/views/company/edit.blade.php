@@ -41,12 +41,9 @@
                     <!-- form start -->
                     <form role="form" action="{{route('company_update',['id' => $data->id])}}" method="post" enctype="multipart/form-data">
                         @csrf
-
                         <div class="card-body">
-
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Name</label>
-
+                                <label>Name</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$data->name}}" id="name">
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -56,30 +53,31 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Address</label>
+                                <label>Address</label>
                                 <input type="text" name="address" value="{{$data->address}}" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Phone</label>
+                                <label>Phone</label>
                                 <input type="text" name="phone" value="{{$data->phone}}" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputPassword1">E-mail</label>
+                                <label>E-mail</label>
                                 <input type="text" name="email" value="{{$data->email}}" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Logo</label>
-                                <input type="file" name="logo" value="{{$data->logo}}" class="form-control">
-                                @if($data->logo)
-                                    <img src="{{Storage::url($data->logo)}}" height="100" alt="">
-                                @endif
+                                <label>Logo</label>
+                                <input type="file" name="logo" value="{{$data->email}}" class="form-control">
                             </div>
 
+                            @if($data->logo)
+                                <img src="{{Storage::url($data->logo)}}" height="100" alt="">
+                            @endif
+
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Website</label>
+                                <label>Website</label>
                                 <input type="text" name="website" value="{{$data->website}}" class="form-control">
                             </div>
 

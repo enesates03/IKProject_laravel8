@@ -22,17 +22,6 @@ Route::get('/admin/login', 'App\Http\Controllers\HomeController@login')->name('a
 Route::post('/admin/logincheck', 'App\Http\Controllers\HomeController@logincheck')->name('admin_logincheck');
 Route::get('/admin/logout', 'App\Http\Controllers\HomeController@logout')->name('admin_logout');
 
-/*
-Route::middleware('auth')->group(function () {
-    Route::get('/admin/company', 'App\Http\Controllers\CompanyController@index')->name('company_index');
-    Route::get('/admin/company/create', 'App\Http\Controllers\CompanyController@create')->name('company_create');
-    Route::post('/admin/company/store', 'App\Http\Controllers\CompanyController@store')->name('company_store');
-    Route::get('/admin/company/edit/{id}', 'App\Http\Controllers\CompanyController@edit')->name('company_edit');
-    Route::post('/admin/company/update/{id}', 'App\Http\Controllers\CompanyController@update')->name('company_update');
-    Route::get('/admin/company/destroy/{id}', 'App\Http\Controllers\CompanyController@destroy')->name('company_destroy');
-}); #auth
-*/
-
 Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::prefix('company')->group(function () {

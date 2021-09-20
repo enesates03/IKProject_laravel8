@@ -12,6 +12,14 @@
                 </button>
             </div>
         @endif
+            @if ($message = Session::get('fail'))
+                <div class="alert alert-danger alert-warning alert-dismissible fade show" role="alert">
+                    <p class="text-white">{{ $message }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+        @endif
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">

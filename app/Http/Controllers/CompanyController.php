@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CompanyFormRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -35,24 +36,22 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CompanyFormRequest $request)
     {
-        $request->validate([
-            'name' => 'required'
-        ]);
-
         //Company::create($request->all());
         $data = new Company;
         $data->name = $request->input('name');
         $data->address = $request->input('address');
         $data->phone = $request->input('phone');
         $data->email = $request->input('email');
-        $data->logo = Storage::putFile('images',$request->file('logo'));
+        if($request->has('logo')){
+            $data->logo = Storage::putFile('images',$request->file('logo'));}
+
         $data->website = $request->input('website');
         $data->save();
 
         return redirect()->route('company_index')
-            ->with('success', 'Project created successfully.');
+            ->with('success', 'Company created successfully.');
     }
 
     /**
@@ -85,22 +84,19 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company,$id)
+    public function update(CompanyFormRequest $request, Company $company,$id)
     {
-        $request->validate([
-            'name' => 'required'
-        ]);
-
         $data = Company::find($id);
         $data->name = $request->input('name');
         $data->address = $request->input('address');
         $data->phone = $request->input('phone');
         $data->email = $request->input('email');
-        $data->logo = Storage::putFile('images',$request->file('logo'));
+        if($request->has('logo')){
+            $data->logo = Storage::putFile('images',$request->file('logo'));}
         $data->website = $request->input('website');
         $data->save();
         return redirect()->route('company_index')
-            ->with('success', 'Project updated successfully');
+            ->with('success', 'Company updated successfully');
     }
 
     /**
@@ -111,10 +107,15 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company,$id)
     {
-        //DB::table('Company') ->where('id','=',$id)->delete();
-        $data = Company::find($id);
-        $data->delete();
-        return redirect()->route('company_index')
-            ->with('success', 'Project deleted successfully');
+        try{
+            //DB::table('Company') ->where('id','=',$id)->delete();
+            $data = Company::find($id);
+            $data->delete();
+            return redirect()->route('company_index')
+                ->with('success', 'Company deleted successfully');
+        }catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('company_index')
+                ->with('fail', 'The company has employees that cannot be deleted');
+        }
     }
 }

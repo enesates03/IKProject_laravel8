@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmployeeFormRequest;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -37,14 +38,8 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EmployeeFormRequest $request)
     {
-        $request->validate([
-            'firstname' => 'required',
-            'lastname'=>'required',
-            'phone'=>'required'
-        ]);
-
         Employee::create($request->all());
         return redirect()->route('employee_index')
             ->with('success', 'Project created successfully.');
@@ -81,13 +76,8 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee,$id)
+    public function update(EmployeeFormRequest $request, Employee $employee,$id)
     {
-        $request->validate([
-            'firstname' => 'required',
-            'lastname'=>'required',
-            'phone'=>'required'
-        ]);
 
         $data = Employee::find($id);
         $data->firstname = $request->input('firstname');
