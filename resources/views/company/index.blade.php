@@ -43,7 +43,7 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <a href="{{route('company_create')}}" type="button" class="btn btn-block btn-info" style="width:200px">Add Companies</a>
+                    <a href="{{route('company.create')}}" type="button" class="btn btn-block btn-info" style="width:200px">Add Companies</a>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -84,9 +84,9 @@
                                             @endif
 
                                         </td>
-                                        <td>{{$rs->website}}</td>
-                                        <td><a href="{{route('company_edit',['id' => $rs->id])}}">Edit</a></td>
-                                        <td><a href="{{route('company_destroy',['id' => $rs->id])}}" onclick="return confirm('Delete! Are you sure you want to delete {{$rs->name}} company?')">Delete</a></td>
+                                        <td><a href="{{$rs->website}}">{{$rs->website}}</a></td>
+                                        <td><a href="{{route('company.edit',['id' => $rs->id])}}">Edit</a></td>
+                                        <td><a href="{{route('company.destroy',['id' => $rs->id])}}" onclick="return confirm('Delete! Are you sure you want to delete {{$rs->name}} company?')">Delete</a></td>
                                     </tr>
                                 @endforeach
                                 </tbody>

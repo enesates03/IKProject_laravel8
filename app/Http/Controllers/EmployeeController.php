@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeFormRequest;
 use App\Models\Employee;
+use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -41,7 +42,7 @@ class EmployeeController extends Controller
     public function store(EmployeeFormRequest $request)
     {
         Employee::create($request->all());
-        return redirect()->route('employee_index')
+        return redirect()->route('employee.index')
             ->with('success', 'Project created successfully.');
     }
 
@@ -78,7 +79,7 @@ class EmployeeController extends Controller
      */
     public function update(EmployeeFormRequest $request, Employee $employee,$id)
     {
-
+        //dd($request->input('firstname'));
         $data = Employee::find($id);
         $data->firstname = $request->input('firstname');
         $data->lastname = $request->input('lastname');
@@ -86,7 +87,7 @@ class EmployeeController extends Controller
         $data->email = $request->input('email');
         $data->company = $request->input('company');
         $data->save();
-        return redirect()->route('employee_index')
+        return redirect()->route('employee.index')
             ->with('success', 'Project updated successfully');
     }
 
@@ -100,7 +101,7 @@ class EmployeeController extends Controller
     {
         $data = Employee::find($id);
         $data->delete();
-        return redirect()->route('employee_index')
+        return redirect()->route('employee.index')
             ->with('success', 'Project deleted successfully');
     }
 }

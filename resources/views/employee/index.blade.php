@@ -34,7 +34,7 @@
             <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <a href="{{route('employee_create')}}" type="button" class="btn btn-block btn-info" style="width:200px">Add Employees</a>
+                    <a href="{{route('employee.create')}}" type="button" class="btn btn-block btn-info" style="width:200px">Add Employees</a>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -68,15 +68,16 @@
                                         <td>{{ $rs -> lastname}}</td>
                                         <td>{{ $rs -> email}}</td>
                                         <td>{{ $rs -> phone}}</td>
-                                        <td> @foreach ($data as $ra)
+                                        <td>
+                                            @foreach ($data as $ra)
                                                 @if($rs -> company == $ra-> id)
                                                     {{$ra-> name}}
                                                 @endif
                                             @endforeach
                                         </td>
-                                        <td><a href="{{route('employee_edit',['id' => $rs->id])}}">Edit</a></td>
+                                        <td><a href="{{route('employee.edit',['id' => $rs->id])}}">Edit</a></td>
                                         <td>
-                                            <a href="{{route('employee_destroy',['id' => $rs->id])}}"
+                                            <a href="{{route('employee.destroy',['id' => $rs->id])}}"
                                            @foreach ($data as $ra)
                                                 @if($rs -> company == $ra-> id)
                                                      onclick="return confirm('Delete! Are you sure you want to delete {{$ra-> name}} company?')">Delete</a>

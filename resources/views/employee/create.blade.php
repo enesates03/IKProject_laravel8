@@ -39,13 +39,13 @@
 
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" action="{{route('employee_store')}}" method="post">
+                    <form role="form" action="{{route('employee.store')}}" method="post">
                         @csrf
 
                         <div class="card-body">
 
                             <div class="form-group">
-                                <label>Name</label>
+                                <label>First Name</label>
                                 <input type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" id="name">
                                 @error('firstname')
                                 <span class="invalid-feedback" role="alert">

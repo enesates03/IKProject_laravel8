@@ -39,7 +39,7 @@
 
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" action="{{route('employee_update',['id' => $data->id])}}" method="post">
+                    <form role="form" action="{{route('employee.update',['id' => $data->id])}}" method="post">
                         @csrf
 
                         <div class="card-body">
@@ -94,7 +94,7 @@
                         </div>
 
                         <!-- /.card-body -->
-                        <button type="submit" class="btn btn-primary">Add Companies</button>
+                        <button type="submit" class="btn btn-primary">Add Employees</button>
                     </form>
 
 

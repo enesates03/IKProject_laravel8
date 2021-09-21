@@ -24,7 +24,9 @@ class CompanyFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
+            'phone' => 'nullable|numeric|min:11',
+            'email'=>'email|nullable',
         ];
     }
 }

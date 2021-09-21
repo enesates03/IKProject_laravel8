@@ -1,6 +1,5 @@
 @extends('layout.app')
 @section('title','Edit Camponies Page')
-
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -39,7 +38,7 @@
 
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" action="{{route('company_update',['id' => $data->id])}}" method="post" enctype="multipart/form-data">
+                    <form role="form" action="{{route('company.update',['id' => $data->id])}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
@@ -101,6 +100,4 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-
 @endsection
-

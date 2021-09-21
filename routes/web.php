@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,31 +20,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/a', 'App\Http\Controllers\HomeController@index')->name('home_index')->middleware('auth');
-Route::get('/admin/login', 'App\Http\Controllers\HomeController@login')->name('admin_login');
-Route::post('/admin/logincheck', 'App\Http\Controllers\HomeController@logincheck')->name('admin_logincheck');
-Route::get('/admin/logout', 'App\Http\Controllers\HomeController@logout')->name('admin_logout');
+Route::get('/a', [HomeController::class, 'index'])->name('home.index')->middleware('auth');
+Route::get('/admin/login',[HomeController::class, 'login'])->name('admin_login');
+Route::post('/admin/logincheck', [HomeController::class, 'logincheck'])->name('admin_logincheck');
+Route::get('/admin/logout', [HomeController::class, 'logout'])->name('admin_logout');
 
 Route::middleware('auth')->prefix('admin')->group(function () {
-
     Route::prefix('company')->group(function () {
-        Route::get('/', 'App\Http\Controllers\CompanyController@index')->name('company_index');
-        Route::get('create', 'App\Http\Controllers\CompanyController@create')->name('company_create');
-        Route::post('store', 'App\Http\Controllers\CompanyController@store')->name('company_store');
-        Route::get('edit/{id}', 'App\Http\Controllers\CompanyController@edit')->name('company_edit');
-        Route::post('update/{id}', 'App\Http\Controllers\CompanyController@update')->name('company_update');
-        Route::get('destroy/{id}', 'App\Http\Controllers\CompanyController@destroy')->name('company_destroy');
+        Route::get('/', [CompanyController::class, 'index'])->name('company.index');
+        Route::get('create', [CompanyController::class, 'create'])->name('company.create');
+        Route::post('store', [CompanyController::class, 'store'])->name('company.store');
+        Route::get('edit/{id}', [CompanyController::class, 'edit'])->name('company.edit');
+        Route::post('update/{id}', [CompanyController::class, 'update'])->name('company.update');
+        Route::get('destroy/{id}', [CompanyController::class, 'destroy'])->name('company.destroy');
     });
 
     Route::prefix('employee')->group(function (){
-        Route::get('/','App\Http\Controllers\EmployeeController@index')->name('employee_index');
-        Route::get('create', 'App\Http\Controllers\EmployeeController@create')->name('employee_create');
-        Route::post('store', 'App\Http\Controllers\EmployeeController@store')->name('employee_store');
-        Route::get('edit/{id}', 'App\Http\Controllers\EmployeeController@edit')->name('employee_edit');
-        Route::post('update/{id}', 'App\Http\Controllers\EmployeeController@update')->name('employee_update');
-        Route::get('destroy/{id}', 'App\Http\Controllers\EmployeeController@destroy')->name('employee_destroy');
+        Route::get('/',[EmployeeController::class, 'index'])->name('employee.index');
+        Route::get('create', [EmployeeController::class, 'create'])->name('employee.create');
+        Route::post('store', [EmployeeController::class, 'store'])->name('employee.store');
+        Route::get('edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
+        Route::post('update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
+        Route::get('destroy/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
     });
-
 });
 
 Route::redirect('/','/a');

@@ -27,6 +27,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
+
         return view('company.create');
     }
 
@@ -38,7 +39,9 @@ class CompanyController extends Controller
      */
     public function store(CompanyFormRequest $request)
     {
+       //dd($request->input('name'));
         //Company::create($request->all());
+
         $data = new Company;
         $data->name = $request->input('name');
         $data->address = $request->input('address');
@@ -50,7 +53,7 @@ class CompanyController extends Controller
         $data->website = $request->input('website');
         $data->save();
 
-        return redirect()->route('company_index')
+        return redirect()->route('company.index')
             ->with('success', 'Company created successfully.');
     }
 
@@ -95,7 +98,7 @@ class CompanyController extends Controller
             $data->logo = Storage::putFile('images',$request->file('logo'));}
         $data->website = $request->input('website');
         $data->save();
-        return redirect()->route('company_index')
+        return redirect()->route('company.index')
             ->with('success', 'Company updated successfully');
     }
 
@@ -111,10 +114,10 @@ class CompanyController extends Controller
             //DB::table('Company') ->where('id','=',$id)->delete();
             $data = Company::find($id);
             $data->delete();
-            return redirect()->route('company_index')
+            return redirect()->route('company.index')
                 ->with('success', 'Company deleted successfully');
         }catch (\Illuminate\Database\QueryException $e) {
-            return redirect()->route('company_index')
+            return redirect()->route('company.index')
                 ->with('fail', 'The company has employees that cannot be deleted');
         }
     }
