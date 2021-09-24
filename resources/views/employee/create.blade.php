@@ -46,7 +46,7 @@
 
                             <div class="form-group">
                                 <label>First Name</label>
-                                <input type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" id="name">
+                                <input type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" id="name" value="{{old('firstname')}}">
                                 @error('firstname')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>Eksik alan girişi isim kısmı boş bırakılamaz</strong>
@@ -57,7 +57,7 @@
 
                             <div class="form-group">
                                 <label>Last Name</label>
-                                <input type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" id="name1">
+                                <input type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" id="name1" value="{{old('lastname')}}">
                                 @error('lastname')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>Eksik alan girişi isim kısmı boş bırakılamaz</strong>
@@ -72,7 +72,7 @@
 
                             <div class="form-group">
                                 <label>Phone</label>
-                                <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" id="name2">
+                                <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" id="name2" value="{{old('phone')}}">
                                 @error('phone')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>Eksik alan girişi isim kısmı boş bırakılamaz</strong>
