@@ -2,9 +2,7 @@
 @section('title','Edit Employee Page')
 
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -18,17 +16,12 @@
                         </ol>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </section>
-
-        <!-- Main content -->
         <section class="content">
-
-            <!-- Default box -->
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Edit Employee Page</h3>
-
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -36,49 +29,65 @@
                     </div>
                 </div>
                 <div class="card-body">
-
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form role="form" action="{{route('employee.update',['id' => $data->id])}}" method="post">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> Please correct errors and try again!.
+                            <br/>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form role="form" action="{{route('employee.update',$data->id)}}" method="post">
                         @csrf
-
                         <div class="card-body">
-
                             <div class="form-group">
                                 <label for="exampleInputEmail1">First Name</label>
-
                                 <input type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" value="{{$data->firstname}}" id="firstname">
                                 @error('firstname')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Hatalı işlem isim kısmı boş bırakılamaz</strong>
-                                </span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                              {{--  @error('firstname')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Missing field entry firstname part cannot be left blank</strong>
+                                </span>
+                                @enderror--}}
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Last Name</label>
-
                                 <input type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" value="{{$data->lastname}}" id="firstname">
                                 @error('lastname')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Hatalı işlem isim kısmı boş bırakılamaz</strong>
-                                </span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                             {{--   @error('lastname')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Missing field entry lastname part cannot be left blank</strong>
+                                </span>
+                                @enderror--}}
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">E-mail</label>
                                 <input type="text" name="email" value="{{$data->email}}" class="form-control">
+                                @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Phone</label>
                                 <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{$data->phone}}" id="firstname">
                                 @error('phone')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Hatalı işlem isim kısmı boş bırakılamaz</strong>
-                                </span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                             {{--   @error('phone')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Missing field entry phone part cannot be left blank</strong>
+                                </span>
+                                @enderror--}}
                             </div>
 
                             <div class="form-group">
@@ -89,29 +98,16 @@
                                     @endforeach
                                 </select>
                             </div>
-
-
                         </div>
-
-                        <!-- /.card-body -->
-                        <button type="submit" class="btn btn-primary">Add Employees</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </form>
-
-
                 </div>
-                <!-- /.card-body -->
                 <div class="card-footer">
                     Footer
                 </div>
-                <!-- /.card-footer-->
             </div>
-            <!-- /.card -->
-
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-
 @endsection
 
 

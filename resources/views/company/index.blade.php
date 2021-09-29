@@ -2,7 +2,6 @@
 @section('title','Companies List')
 
 @section('content')
-        <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         @if ($message = Session::get('success'))
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -20,7 +19,6 @@
                     </button>
                 </div>
         @endif
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -34,16 +32,47 @@
                         </ol>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </section>
-
-        <!-- Main content -->
         <section class="content">
+            <div class="card card-primary">
+                <form method="GET" action="{{route('company.index')}}">
+                    <div class="card-body row">
+                        <div class="form-group col-sm">
+                            <label>Name</label>
+                            <input type="name" name="name" class="form-control" placeholder="Name..." id="name" value="{{request()->get('name')}}">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label>Address</label>
+                            <input type="name" name="address" class="form-control" placeholder="Address..." value="{{request()->get('address')}}">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label>Phone</label>
+                            <input type="name" name="phone" class="form-control" placeholder="Phone..." value="{{request()->get('phone')}}">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label>E-mail</label>
+                            <input type="name" name="email" class="form-control" placeholder="E-mail..." value="{{request()->get('email')}}">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label>Website</label>
+                            <input type="name" name="website" class="form-control" placeholder="Website..." value="{{request()->get('website')}}">
+                        </div>
+                    </div>
+                    <div class="card-footer row">
+                        <div class="buttonSearch">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                        <div class="buttonReset ml-2">
+                            <a class="btn btn-primary" href="{{route('company.index')}}">Reset</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-            <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <a href="{{route('company.create')}}" type="button" class="btn btn-block btn-info" style="width:200px">Add Companies</a>
+                    <a href="{{route('company.create')}}" type="button" class="btn btn-block btn-info" style="width:200px">Add Company</a>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -51,10 +80,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <!-- Body Area -->
-
                     <div class="card">
-                        <!-- /.card-header -->
                         <div class="card-body">
                             <table id="dt-basic-checkbox" class="table table-bordered table-striped">
                                 <thead>
@@ -85,26 +111,21 @@
 
                                         </td>
                                         <td><a href="{{$rs->website}}">{{$rs->website}}</a></td>
-                                        <td><a href="{{route('company.edit',['id' => $rs->id])}}">Edit</a></td>
-                                        <td><a href="{{route('company.destroy',['id' => $rs->id])}}" onclick="return confirm('Delete! Are you sure you want to delete {{$rs->name}} company?')">Delete</a></td>
-                                    </tr>
+                                        <td><a href="{{route('company.edit',$rs->id)}}">Edit</a></td>
+                                        <td><a href="{{route('company.destroy',$rs->id)}}" onclick="return confirm('Delete! Are you sure you want to delete {{$rs->name}} company?')">Delete</a></td>
+                                   </tr>
                                 @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <!-- /.card-body -->
                 <div class="card-footer">
                     Footer
                 </div>
-                <!-- /.card-footer-->
             </div>
-            <!-- /.card -->
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
 
 @endsection
 

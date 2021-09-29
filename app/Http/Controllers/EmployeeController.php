@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EmployeeFormRequest;
 use App\Models\Employee;
+use App\Models\Company;
 use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 
 class EmployeeController extends Controller
 {
@@ -19,6 +21,14 @@ class EmployeeController extends Controller
     {
         $datalist = Employee::all();
         $data = DB::select('select * from companies where id');
+        //$data = Company::id();
+        $query=Employee::query();
+        if (request()->input('firstname')){$datalist =$query->where('firstname' , 'LIKE' ,"%".request()->input('firstname')."%")->get();}
+        if (request()->input('lastname')){$datalist =$query->where('lastname' , 'LIKE' ,"%".request()->input('lastname')."%")->get();}
+        if (request()->input('email')){$datalist =$query->where('email' , 'LIKE' ,"%".request()->input('email')."%")->get();}
+        if (request()->input('phone')){$datalist =$query->where('phone' , 'LIKE' ,"%".request()->input('phone')."%")->get();}
+        if (request()->input('company')){$datalist =$query->where('company' , 'LIKE' ,"%".request()->input('company')."%")->get();}
+
         return view('employee.index',['datalist'=>$datalist,'data'=>$data]);
     }
 
@@ -43,7 +53,7 @@ class EmployeeController extends Controller
     {
         Employee::create($request->all());
         return redirect()->route('employee.index')
-            ->with('success', 'Project created successfully.');
+            ->with('success', 'Employee created successfully.');
     }
 
     /**
@@ -63,11 +73,10 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $employee,$id)
+    public function edit(Employee $employee)
     {
-        $data = Employee::find($id);
         $datalist = DB::table('companies')->get()->where('id');
-        return view('employee.edit',['data'=>$data,'datalist'=>$datalist]);
+        return view('employee.edit',['data'=>$employee,'datalist'=>$datalist]);
     }
 
     /**
@@ -77,18 +86,17 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(EmployeeFormRequest $request, Employee $employee,$id)
+    public function update(EmployeeFormRequest $request, Employee $employee)
     {
         //dd($request->input('firstname'));
-        $data = Employee::find($id);
-        $data->firstname = $request->input('firstname');
-        $data->lastname = $request->input('lastname');
-        $data->phone = $request->input('phone');
-        $data->email = $request->input('email');
-        $data->company = $request->input('company');
-        $data->save();
+        $employee->firstname = $request->input('firstname');
+        $employee->lastname = $request->input('lastname');
+        $employee->phone = $request->input('phone');
+        $employee->email = $request->input('email');
+        $employee->company = $request->input('company');
+        $employee->save();
         return redirect()->route('employee.index')
-            ->with('success', 'Project updated successfully');
+            ->with('success', 'Employee updated successfully');
     }
 
     /**
@@ -97,11 +105,10 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee,$id)
+    public function destroy(Employee $employee)
     {
-        $data = Employee::find($id);
-        $data->delete();
+        $employee->delete();
         return redirect()->route('employee.index')
-            ->with('success', 'Project deleted successfully');
+            ->with('success', 'Employee deleted successfully');
     }
 }

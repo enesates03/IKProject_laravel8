@@ -6,6 +6,7 @@ use App\Http\Requests\CompanyFormRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
@@ -16,7 +17,19 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $datalist = Company::all();
+        //$datalist=Company::all();
+        $datalist=Company::all();
+        $query=Company::query();
+        //$datalist->when(request()->filter('name'),fn($query)=>$query->where('name' , '=' ,"%".request()->input('name')."%"))->get();
+        /*$datalist
+            ->when(request()->input('name'),fn($query)=>$query->where('name' , '=' ,request()->input('name')))
+            ->get();*/
+        if (request()->input('name')){$datalist =$query->where('name' , 'LIKE' ,"%".request()->input('name')."%")->get();}
+        if (request()->input('address')){$datalist =$query->where('address' , 'LIKE' ,"%".request()->input('address')."%")->get();}
+        if (request()->input('phone')){$datalist =$query->where('phone' , 'LIKE' ,"%".request()->input('phone')."%")->get();}
+        if (request()->input('email')){$datalist =$query->where('email' , 'LIKE' ,"%".request()->input('email')."%")->get();}
+        if (request()->input('website')){$datalist =$query->where('website' , 'LIKE' ,"%".request()->input('website')."%")->get();}
+
         return view('company.index', ['datalist'=>$datalist]);
     }
 
@@ -54,7 +67,7 @@ class CompanyController extends Controller
         $data->save();
 
         return redirect()->route('company.index')
-            ->with('success', 'Company created successfully.');
+            ->with('success', 'The company created successfully.');
     }
 
     /**
@@ -74,10 +87,10 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function edit(Company $company,$id)
+    public function edit(Company $company)
     {
-        $data = Company::find($id);
-        return view('company.edit',['data'=>$data]);
+
+        return view('company.edit',['data'=>$company]);
     }
 
     /**
@@ -87,19 +100,18 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(CompanyFormRequest $request, Company $company,$id)
+    public function update(CompanyFormRequest $request, Company $company)
     {
-        $data = Company::find($id);
-        $data->name = $request->input('name');
-        $data->address = $request->input('address');
-        $data->phone = $request->input('phone');
-        $data->email = $request->input('email');
+        $company->name = $request->input('name');
+        $company->address = $request->input('address');
+        $company->phone = $request->input('phone');
+        $company->email = $request->input('email');
         if($request->has('logo')){
             $data->logo = Storage::putFile('images',$request->file('logo'));}
-        $data->website = $request->input('website');
-        $data->save();
+        $company->website = $request->input('website');
+        $company->save();
         return redirect()->route('company.index')
-            ->with('success', 'Company updated successfully');
+            ->with('success', 'The company updated successfully');
     }
 
     /**
@@ -108,14 +120,13 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company,$id)
+    public function destroy(Company $company)
     {
         try{
             //DB::table('Company') ->where('id','=',$id)->delete();
-            $data = Company::find($id);
-            $data->delete();
+            $company->delete();
             return redirect()->route('company.index')
-                ->with('success', 'Company deleted successfully');
+                ->with('success', 'The company deleted successfully');
         }catch (\Illuminate\Database\QueryException $e) {
             return redirect()->route('company.index')
                 ->with('fail', 'The company has employees that cannot be deleted');

@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
+use http\Env\Request;
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 class CompanyFormRequest extends FormRequest
 {
     /**
@@ -24,9 +25,13 @@ class CompanyFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'phone' => 'nullable|numeric|min:11',
+            //'name' => ['required',Rule::unique('name')->ignore($this->id)],
+            //'name' => 'required|unique:companies,name,'.$this->company->id,
+            //'name'=>'required|unique:companies',
+            'name'=>'required',
+            'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'email'=>'email|nullable',
+            'website'=>'nullable'
         ];
     }
 }

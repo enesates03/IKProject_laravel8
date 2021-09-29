@@ -30,18 +30,18 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::get('/', [CompanyController::class, 'index'])->name('company.index');
         Route::get('create', [CompanyController::class, 'create'])->name('company.create');
         Route::post('store', [CompanyController::class, 'store'])->name('company.store');
-        Route::get('edit/{id}', [CompanyController::class, 'edit'])->name('company.edit');
-        Route::post('update/{id}', [CompanyController::class, 'update'])->name('company.update');
-        Route::get('destroy/{id}', [CompanyController::class, 'destroy'])->name('company.destroy');
+        Route::get('edit/{company}', [CompanyController::class, 'edit'])->name('company.edit');
+        Route::post('update/{company}', [CompanyController::class, 'update'])->name('company.update');
+        Route::get('destroy/{company}', [CompanyController::class, 'destroy'])->name('company.destroy');
     });
 
     Route::prefix('employee')->group(function (){
         Route::get('/',[EmployeeController::class, 'index'])->name('employee.index');
         Route::get('create', [EmployeeController::class, 'create'])->name('employee.create');
         Route::post('store', [EmployeeController::class, 'store'])->name('employee.store');
-        Route::get('edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
-        Route::post('update/{id}', [EmployeeController::class, 'update'])->name('employee.update');
-        Route::get('destroy/{id}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
+        Route::get('edit/{employee}', [EmployeeController::class, 'edit'])->name('employee.edit');
+        Route::post('update/{employee}', [EmployeeController::class, 'update'])->name('employee.update');
+        Route::get('destroy/{employee}', [EmployeeController::class, 'destroy'])->name('employee.destroy');
     });
 });
 

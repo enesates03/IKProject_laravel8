@@ -1,7 +1,6 @@
 @extends('layout.app')
 @section('title','Employees Home Page')
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         @if ($message = Session::get('success'))
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -11,7 +10,6 @@
                 </button>
             </div>
     @endif
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -25,16 +23,54 @@
                         </ol>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </section>
-
-        <!-- Main content -->
         <section class="content">
+            <div class="card card-primary">
+                <form method="GET" action="{{route('employee.index')}}">
+                    <div class="card-body row">
+                        <div class="form-group col-sm">
+                            <label>First Name</label>
+                            <input type="name" name="firstname" class="form-control" placeholder="First Name..." onchange="this.form.submit()" value="{{request()->get('firstname')}}">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label>Last Name</label>
+                            <input type="name" name="lastname" class="form-control" placeholder="Last Name..." onchange="this.form.submit()" value="{{request()->get('lastname')}}">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label>E-mail</label>
+                            <input type="name" name="email" class="form-control" placeholder="E-mail..." onchange="this.form.submit()" value="{{request()->get('email')}}">
+                        </div>
+                        <div class="form-group col-sm">
+                            <label>Phone</label>
+                            <input type="name" name="phone" class="form-control" placeholder="Phone..." onchange="this.form.submit()" value="{{request()->get('phone')}}">
+                        </div>
 
-            <!-- Default box -->
+                        <div class="form-group col-sm">
+                            <label>Company</label>
+                            <select class="form-control select2" onchange="this.form.submit()" name="company" style="width:100%">
+
+                                <option value="">Company </option>
+                                @foreach($data as $rs)
+                                    <option value="{{$rs->id}}" @if(request()->get('company')== $rs->id) selected @endif>{{$rs->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="card-footer row">
+                        <div>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                        <div class="ml-2">
+                            <a class="btn btn-primary" href="{{route('employee.index')}}">Reset</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <div class="card">
                 <div class="card-header">
-                    <a href="{{route('employee.create')}}" type="button" class="btn btn-block btn-info" style="width:200px">Add Employees</a>
+                    <a href="{{route('employee.create')}}" type="button" class="btn btn-block btn-info" style="width:200px">Add Employee</a>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -42,9 +78,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-
                     <div class="card">
-                        <!-- /.card-header -->
                         <div class="card-body">
                             <table id="dt-basic-checkbox" class="table table-bordered table-striped">
                                 <thead>
@@ -75,9 +109,9 @@
                                                 @endif
                                             @endforeach
                                         </td>
-                                        <td><a href="{{route('employee.edit',['id' => $rs->id])}}">Edit</a></td>
+                                        <td><a href="{{route('employee.edit', $rs->id)}}">Edit</a></td>
                                         <td>
-                                            <a href="{{route('employee.destroy',['id' => $rs->id])}}"
+                                            <a href="{{route('employee.destroy',$rs->id)}}"
                                            @foreach ($data as $ra)
                                                 @if($rs -> company == $ra-> id)
                                                      onclick="return confirm('Delete! Are you sure you want to delete {{$ra-> name}} company?')">Delete</a>
@@ -88,27 +122,17 @@
                                 @endforeach
                             </table>
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
-                <!-- /.card-body -->
                 <div class="card-footer">
                     Footer
                 </div>
-                <!-- /.card-footer-->
             </div>
-            <!-- /.card -->
-
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-
 @endsection
 
 @section('footer')
-
     <script src="{{asset('admin')}}/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="{{asset('admin')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{asset('admin')}}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

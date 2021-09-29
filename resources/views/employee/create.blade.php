@@ -2,9 +2,7 @@
 @section('title','Add Camponies Page')
 
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -18,13 +16,10 @@
                         </ol>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </section>
 
-        <!-- Main content -->
         <section class="content">
-
-            <!-- Default box -->
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Add Employee Page</h3>
@@ -36,48 +31,65 @@
                     </div>
                 </div>
                 <div class="card-body">
-
-                    <!-- /.card-header -->
-                    <!-- form start -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> Please correct errors and try again!.
+                            <br/>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                @endif
                     <form role="form" action="{{route('employee.store')}}" method="post">
                         @csrf
-
                         <div class="card-body">
-
                             <div class="form-group">
                                 <label>First Name</label>
                                 <input type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" id="name" value="{{old('firstname')}}">
                                 @error('firstname')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Eksik alan girişi isim kısmı boş bırakılamaz</strong>
-                                </span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
-
+                              {{--  @error('firstname')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Missing field entry firstname part cannot be left blank.</strong>
+                                </span>
+                                @enderror--}}
                             </div>
 
                             <div class="form-group">
                                 <label>Last Name</label>
                                 <input type="text" class="form-control @error('lastname') is-invalid @enderror" name="lastname" id="name1" value="{{old('lastname')}}">
                                 @error('lastname')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Eksik alan girişi isim kısmı boş bırakılamaz</strong>
-                                </span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                            {{--    @error('lastname')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Missing field entry lastname part cannot be left blank.</strong>
+                                </span>
+                                @enderror--}}
                             </div>
 
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="text" name="email" class="form-control">
+                                <input type="text" name="email" class="form-control" value="{{old('email')}}">
+                                @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="form-group">
                                 <label>Phone</label>
                                 <input type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" id="name2" value="{{old('phone')}}">
                                 @error('phone')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Eksik alan girişi isim kısmı boş bırakılamaz</strong>
-                                </span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                              {{--  @error('phone')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Missing field entry phone part cannot be left blank</strong>
+                                </span>
+                                @enderror--}}
                             </div>
 
                             <div class="form-group">
@@ -90,25 +102,14 @@
                             </div>
 
                         </div>
-
-                        <!-- /.card-body -->
-                        <button type="submit" class="btn btn-primary">Add Companies</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
                     </form>
-
-
                 </div>
-                <!-- /.card-body -->
                 <div class="card-footer">
                     Footer
                 </div>
-                <!-- /.card-footer-->
             </div>
-            <!-- /.card -->
-
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-
 @endsection
 

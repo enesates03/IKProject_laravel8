@@ -1,32 +1,26 @@
 @extends('layout.app')
 @section('title','Edit Camponies Page')
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Edit Camponies Page</h1>
+                        <h1>Edit Campany Page</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Edit Camponies</a></li>
-                            <li class="breadcrumb-item active">Edit Camponies Page</li>
+                            <li class="breadcrumb-item"><a href="#">Edit Campany</a></li>
+                            <li class="breadcrumb-item active">Edit Campany Page</li>
                         </ol>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </section>
-
-        <!-- Main content -->
         <section class="content">
-
-            <!-- Default box -->
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Edit Camponies Page</h3>
+                    <h3 class="card-title">Edit Campany Page</h3>
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -35,20 +29,32 @@
                     </div>
                 </div>
                 <div class="card-body">
-
-                    <!-- /.card-header -->
-                    <!-- form start -->
-                    <form role="form" action="{{route('company.update',['id' => $data->id])}}" method="post" enctype="multipart/form-data">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> Please correct errors and try again!.
+                            <br/>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                @endif
+                    <form role="form" action="{{route('company.update',$data->id)}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$data->name}}" id="name">
+                                <input type="text" class="form-control" name="name" value="{{$data->name}}" id="name">
                                 @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Hatalı işlem isim kısmı boş bırakılamaz</strong>
-                                </span>
+                                <span class="text-danger">{{ $message }}</span>
                                 @enderror
+                              {{--   <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$data->name}}" id="name">
+                                    @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>Missing field entry company part cannot be left blank</strong>
+                                </span>
+                                @enderror--}}
                             </div>
 
                             <div class="form-group">
@@ -59,16 +65,22 @@
                             <div class="form-group">
                                 <label>Phone</label>
                                 <input type="text" name="phone" value="{{$data->phone}}" class="form-control">
+                                @error('phone')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="form-group">
                                 <label>E-mail</label>
                                 <input type="text" name="email" value="{{$data->email}}" class="form-control">
+                                @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="form-group">
                                 <label>Logo</label>
-                                <input type="file" name="logo" value="{{$data->email}}" class="form-control">
+                                <input type="file" name="logo" value="{{$data->logo}}" class="form-control">
                             </div>
 
                             @if($data->logo)
@@ -81,23 +93,13 @@
                             </div>
 
                         </div>
-
-                        <!-- /.card-body -->
-                        <button type="submit" class="btn btn-primary">Add Companies</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </form>
-
-
                 </div>
-                <!-- /.card-body -->
                 <div class="card-footer">
                     Footer
                 </div>
-                <!-- /.card-footer-->
             </div>
-            <!-- /.card -->
-
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
 @endsection
