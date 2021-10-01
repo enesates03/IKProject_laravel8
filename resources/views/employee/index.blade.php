@@ -171,6 +171,7 @@
                 selector: 'td:first-child'
             }
         });
-    </script>
+     </script>
+
 @endsection
 
