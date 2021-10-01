@@ -94,6 +94,7 @@
                                     <th>Website</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
+
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -111,9 +112,13 @@
 
                                         </td>
                                         <td><a href="{{$rs->website}}">{{$rs->website}}</a></td>
-                                        <td><a href="{{route('company.edit',$rs->id)}}">Edit</a></td>
-                                        <td><a href="{{route('company.destroy',$rs->id)}}" onclick="return confirm('Delete! Are you sure you want to delete {{$rs->name}} company?')">Delete</a></td>
-                                   </tr>
+                                        <td style="text-align: center; vertical-align: middle; width:5%;">
+                                            <a href="{{route('company.edit',$rs->id)}}"><i class="fas fa-pen fa-lg"></i></a>
+                                        </td>
+                                        <td style="text-align: center; vertical-align: middle; width:7%;">
+                                            <a href="{{route('company.destroy',$rs->id)}}" onclick="return confirm('Delete! Are you sure you want to delete {{$rs->name}} company?')"> <i class="fas fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
                                 @endforeach
                                 </tbody>
                             </table>
@@ -121,7 +126,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    Footer
+
                 </div>
             </div>
         </section>

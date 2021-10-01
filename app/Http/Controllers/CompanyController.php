@@ -7,6 +7,7 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class CompanyController extends Controller
 {
@@ -15,22 +16,17 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$datalist=Company::all();
-        $datalist=Company::all();
-        $query=Company::query();
-        //$datalist->when(request()->filter('name'),fn($query)=>$query->where('name' , '=' ,"%".request()->input('name')."%"))->get();
-        /*$datalist
-            ->when(request()->input('name'),fn($query)=>$query->where('name' , '=' ,request()->input('name')))
-            ->get();*/
-        if (request()->input('name')){$datalist =$query->where('name' , 'LIKE' ,"%".request()->input('name')."%")->get();}
-        if (request()->input('address')){$datalist =$query->where('address' , 'LIKE' ,"%".request()->input('address')."%")->get();}
-        if (request()->input('phone')){$datalist =$query->where('phone' , 'LIKE' ,"%".request()->input('phone')."%")->get();}
-        if (request()->input('email')){$datalist =$query->where('email' , 'LIKE' ,"%".request()->input('email')."%")->get();}
-        if (request()->input('website')){$datalist =$query->where('website' , 'LIKE' ,"%".request()->input('website')."%")->get();}
+        $data = Company::query()
+            ->when($request->input('name'), fn ($query, $value) => $query->where('name', 'LIKE', '%'.$value.'%'))
+            ->when($request->input('address'), fn ($query, $value) => $query->where('address', 'LIKE', '%'.$value.'%'))
+            ->when($request->input('phone'), fn ($query, $value) => $query->where('phone', 'LIKE', '%'.$value.'%'))
+            ->when($request->input('email'), fn ($query, $value) => $query->where('email', 'LIKE', '%'.$value.'%'))
+            ->when($request->input('website'), fn ($query, $value) => $query->where('website', 'LIKE', '%'.$value.'%'))
+            ->get();
 
-        return view('company.index', ['datalist'=>$datalist]);
+        return view('company.index', ['datalist'=>$data]);
     }
 
     /**
@@ -40,7 +36,6 @@ class CompanyController extends Controller
      */
     public function create()
     {
-
         return view('company.create');
     }
 
@@ -52,20 +47,11 @@ class CompanyController extends Controller
      */
     public function store(CompanyFormRequest $request)
     {
-       //dd($request->input('name'));
-        //Company::create($request->all());
-
-        $data = new Company;
-        $data->name = $request->input('name');
-        $data->address = $request->input('address');
-        $data->phone = $request->input('phone');
-        $data->email = $request->input('email');
+        $attributes=$request->all();
         if($request->has('logo')){
-            $data->logo = Storage::putFile('images',$request->file('logo'));}
-
-        $data->website = $request->input('website');
-        $data->save();
-
+            $attributes['logo']=Storage::putFile('images',$request->file('logo'));
+        }
+        Company::create($attributes);
         return redirect()->route('company.index')
             ->with('success', 'The company created successfully.');
     }
@@ -89,7 +75,6 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-
         return view('company.edit',['data'=>$company]);
     }
 
@@ -102,14 +87,11 @@ class CompanyController extends Controller
      */
     public function update(CompanyFormRequest $request, Company $company)
     {
-        $company->name = $request->input('name');
-        $company->address = $request->input('address');
-        $company->phone = $request->input('phone');
-        $company->email = $request->input('email');
+        $attributes=$request->all();
         if($request->has('logo')){
-            $data->logo = Storage::putFile('images',$request->file('logo'));}
-        $company->website = $request->input('website');
-        $company->save();
+            $attributes['logo']=Storage::putFile('images',$request->file('logo'));
+        }
+        $company->update($attributes);
         return redirect()->route('company.index')
             ->with('success', 'The company updated successfully');
     }
@@ -121,15 +103,15 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Company $company)
-    {
+    {$message='The company deletes successfully';
+        $key='success';
         try{
-            //DB::table('Company') ->where('id','=',$id)->delete();
             $company->delete();
-            return redirect()->route('company.index')
-                ->with('success', 'The company deleted successfully');
         }catch (\Illuminate\Database\QueryException $e) {
-            return redirect()->route('company.index')
-                ->with('fail', 'The company has employees that cannot be deleted');
+            $message='The company has employees that cannot be deleted';
+            $key='fail';
         }
+        return redirect()->route('company.index')
+            ->with($key, $message);
     }
 }

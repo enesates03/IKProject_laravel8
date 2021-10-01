@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @if ($errors->any())
+                   {{-- @if ($errors->any())
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> Please correct errors and try again!.
                             <br/>
@@ -39,7 +39,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                @endif
+                @endif--}}
                     <form role="form" action="{{route('company.update',$data->id)}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">

@@ -109,12 +109,13 @@
                                                 @endif
                                             @endforeach
                                         </td>
-                                        <td><a href="{{route('employee.edit', $rs->id)}}">Edit</a></td>
-                                        <td>
+                                        <td style="text-align: center; vertical-align: middle; width:5%;">
+                                            <a href="{{route('employee.edit', $rs->id)}}"><i class="fas fa-pen fa-lg"></i></a></td>
+                                        <td style="text-align: center; vertical-align: middle; width:7%;">
                                             <a href="{{route('employee.destroy',$rs->id)}}"
                                            @foreach ($data as $ra)
                                                 @if($rs -> company == $ra-> id)
-                                                     onclick="return confirm('Delete! Are you sure you want to delete {{$ra-> name}} company?')">Delete</a>
+                                                     onclick="return confirm('Delete! Are you sure you want to delete {{$ra-> name}} company?')"><i class="fas fa-trash-alt"></i></a>
                                                  @endif
                                            @endforeach
                                         </td>
@@ -125,7 +126,6 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    Footer
                 </div>
             </div>
         </section>

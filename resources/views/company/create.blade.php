@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    @if ($errors->any())
+                   {{-- @if ($errors->any())
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> Please correct errors and try again!.
                             <br/>
@@ -40,7 +40,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                @endif
+                @endif--}}
                     <form role="form" action="{{route('company.store')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
@@ -80,8 +80,27 @@
 
                             <div class="form-group">
                                 <label>Logo</label>
-                                <input type="file" name="logo" class="form-control">
+                                <input type="file" name="logo" id="logo" class="form-control">
+                                @error('logo')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
+                            <div class="form-group">
+                                <img id="preview-image-before-upload" src="https://www.riobeauty.co.uk/images/product_image_not_found.gif"
+                                     alt="preview image" style="max-height: 250px;">
+                            </div>
+                            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                            <script type="text/javascript">
+                                $(document).ready(function (e) {
+                                    $('#logo').change(function(){
+                                        let reader = new FileReader();
+                                        reader.onload = (e) => {
+                                            $('#preview-image-before-upload').attr('src', e.target.result);
+                                        }
+                                        reader.readAsDataURL(this.files[0]);
+                                    });
+                                });
+                            </script>
 
                             <div class="form-group">
                                 <label>Website</label>

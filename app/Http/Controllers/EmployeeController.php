@@ -21,7 +21,6 @@ class EmployeeController extends Controller
     {
         $datalist = Employee::all();
         $data = DB::select('select * from companies where id');
-        //$data = Company::id();
         $query=Employee::query();
         if (request()->input('firstname')){$datalist =$query->where('firstname' , 'LIKE' ,"%".request()->input('firstname')."%")->get();}
         if (request()->input('lastname')){$datalist =$query->where('lastname' , 'LIKE' ,"%".request()->input('lastname')."%")->get();}
@@ -39,7 +38,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $datalist = DB::select('select * from companies where id');
+        $datalist=Company::select(['id','name'])->get();
         return view('employee.create',['datalist'=>$datalist]);
     }
 
@@ -75,7 +74,7 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        $datalist = DB::table('companies')->get()->where('id');
+        $datalist=Company::select(['id','name'])->get();
         return view('employee.edit',['data'=>$employee,'datalist'=>$datalist]);
     }
 
@@ -88,13 +87,7 @@ class EmployeeController extends Controller
      */
     public function update(EmployeeFormRequest $request, Employee $employee)
     {
-        //dd($request->input('firstname'));
-        $employee->firstname = $request->input('firstname');
-        $employee->lastname = $request->input('lastname');
-        $employee->phone = $request->input('phone');
-        $employee->email = $request->input('email');
-        $employee->company = $request->input('company');
-        $employee->save();
+        $employee->update($request->all());
         return redirect()->route('employee.index')
             ->with('success', 'Employee updated successfully');
     }

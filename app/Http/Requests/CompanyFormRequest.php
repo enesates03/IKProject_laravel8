@@ -24,13 +24,12 @@ class CompanyFormRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('company')?->id;
         return [
-            //'name' => ['required',Rule::unique('name')->ignore($this->id)],
-            //'name' => 'required|unique:companies,name,'.$this->company->id,
-            //'name'=>'required|unique:companies',
-            'name'=>'required',
-            'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'name'=>['required',Rule::unique('companies')->ignore($id)],
+            'phone' =>'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'email'=>'email|nullable',
+            'logo'=>'image|nullable|max:2048',
             'website'=>'nullable'
         ];
     }
