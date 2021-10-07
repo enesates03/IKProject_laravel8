@@ -29,17 +29,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                   {{-- @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> Please correct errors and try again!.
-                            <br/>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif--}}
+
                     <form role="form" action="{{route('employee.update',$data->id)}}" method="post">
                         @csrf
                         <div class="card-body">
@@ -49,11 +39,6 @@
                                 @error('firstname')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                              {{--  @error('firstname')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Missing field entry firstname part cannot be left blank</strong>
-                                </span>
-                                @enderror--}}
                             </div>
 
                             <div class="form-group">
@@ -62,11 +47,6 @@
                                 @error('lastname')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                             {{--   @error('lastname')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Missing field entry lastname part cannot be left blank</strong>
-                                </span>
-                                @enderror--}}
                             </div>
 
                             <div class="form-group">
@@ -83,11 +63,6 @@
                                 @error('phone')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                             {{--   @error('phone')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Missing field entry phone part cannot be left blank</strong>
-                                </span>
-                                @enderror--}}
                             </div>
 
                             <div class="form-group">

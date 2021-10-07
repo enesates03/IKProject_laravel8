@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\CompanyImport;
+use App\Exports\CompanyExport;
+use PDF;
+
 
 class CompanyController extends Controller
 {
@@ -114,4 +119,60 @@ class CompanyController extends Controller
         return redirect()->route('company.index')
             ->with($key, $message);
     }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function fileExport()
+    {
+        return Excel::download(new CompanyExport, 'company.xlsx');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function fileExportCSV()
+    {
+       return Excel::download(new CompanyExport, 'company.csv');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function fileExportPDF()
+    {
+        return Excel::download(new CompanyExport, 'company.pdf');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function fileImport(Request $request)
+    {
+        $this->validate($request, [
+            'file' => 'required|file|mimes:xls,xlsx'
+        ]);
+
+        try {
+            $file = $request->file('file')->store('temp');
+            $import = new CompanyImport;
+            $import->import($file);
+            if ($import->failures()->isNotEmpty()) {
+                return back()->withFailures($import->failures());
+            }
+            $key='success';
+            $message='Companies successfully created';
+        }catch (\ErrorException $e ){
+                $key='fail';
+                $message='header error inside excel file';
+        }
+        return back()->with($key, $message);
+}
+
+
+    public function fileDowload()
+    {
+        return Storage::download('download/company_info.xlsx');
+    }
+
 }

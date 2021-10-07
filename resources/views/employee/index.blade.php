@@ -3,13 +3,33 @@
 @section('content')
     <div class="content-wrapper">
         @if ($message = Session::get('success'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <p class="text-white">{{ $message }}</p>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
     @endif
+            @if ($message = Session::get('fail'))
+                <div class="alert alert-danger alert-warning alert-dismissible fade show" role="alert">
+                    <p class="text-white">{{ $message }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+        @if($errors->any())
+            <div class='alert alert-danger alert-dismissible fade show' role="alert" id="error-box">
+                @foreach ($errors->all() as $error)
+                    <p class="text-white">{{ $error }}</p>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                @endforeach
+            </div>
+        @endif
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -25,6 +45,7 @@
                 </div>
             </div>
         </section>
+
         <section class="content">
             <div class="card card-primary">
                 <form method="GET" action="{{route('employee.index')}}">
@@ -56,7 +77,6 @@
                                 @endforeach
                             </select>
                         </div>
-
                     </div>
                     <div class="card-footer row">
                         <div>
@@ -68,6 +88,78 @@
                     </div>
                 </form>
             </div>
+
+            @if (session()->has('failures'))
+                <div class="alert alert-dismissible fade show" role="alert" id="alert">
+                    <table class="table table-danger">
+                        <tr>
+                            <th>Row</th>
+                            <th>Attribute</th>
+                            <th>Errors</th>
+                        </tr>
+                        @foreach (session()->get('failures') as $validation)
+                            <tr>
+                                <td>{{ $validation->row() }}</td>
+                                <td>{{ $validation->attribute() }}</td>
+                                <td>
+                                    <ul>
+                                        @foreach ($validation->errors() as $e)
+                                            <li>{{ $e }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+            <div class="card card-primary">
+                <form action="{{ route('employee.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-body">
+                        <div class="float-left row">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" name="file" class="custom-file-input" id="file">
+                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                    </div>
+                                    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                                    <script>
+                                        // Add the following code if you want the name of the file appear on select
+                                        $(".custom-file-input").on("change", function() {
+                                            var fileName = $(this).val().split("\\").pop();
+                                            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="ml-2">
+                                <button type="submit" class="btn btn-primary">Import Data</button>
+                            </div>
+                            <div class="ml-2">
+                                <a class="btn btn-primary" href="{{route('employee.download')}}">Example Exel</a>
+                            </div>
+                            <div class="ml-2">
+                                <a class="btn btn-primary" href="{{route('employee.exportCompanyID')}}">Company ID</a>
+                            </div>
+                        </div>
+                        <div class="float-right">
+                            <a class="btn btn-primary" href="{{route('employee.export')}}">XLSV</a>
+                            <a class="btn btn-primary" href="{{route('employee.export.CSV')}}">CSV</a>
+                            <a class="btn btn-primary" href="{{route('employee.export.PDF')}}">PDF</a>
+                        </div>
+                    </div>
+                    <div class="ml-3 mb-3">
+                        <a class="text-red">*Enter the company id in the company column</a>
+                    </div>
+                </form>
+            </div>
+
             <div class="card">
                 <div class="card-header">
                     <a href="{{route('employee.create')}}" type="button" class="btn btn-block btn-info" style="width:200px">Add Employee</a>
@@ -113,11 +205,7 @@
                                             <a href="{{route('employee.edit', $rs->id)}}"><i class="fas fa-pen fa-lg"></i></a></td>
                                         <td style="text-align: center; vertical-align: middle; width:7%;">
                                             <a href="{{route('employee.destroy',$rs->id)}}"
-                                           @foreach ($data as $ra)
-                                                @if($rs -> company == $ra-> id)
-                                                     onclick="return confirm('Delete! Are you sure you want to delete {{$ra-> name}} company?')"><i class="fas fa-trash-alt"></i></a>
-                                                 @endif
-                                           @endforeach
+                                             onclick="return confirm('Delete! Are you sure you want to delete {{$rs-> firstname}} {{$rs->lastname}} employee?')"><i class="fas fa-trash-alt"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach

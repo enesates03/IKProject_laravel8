@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('admin') }}/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="{{ asset('admin') }}/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <link rel="stylesheet" href="{{ asset('admin') }}/plugins/daterangepicker/daterangepicker.css">
-    <link rel="stylesheet" href="{{ asset('admin') }}/admin/plugins/summernote/summernote-bs4.min.css">
+{{--    <link rel="stylesheet" href="{{ asset('admin') }}/admin/plugins/summernote/summernote-bs4.min.css">--}}
     @yield('css')
     @yield('javascript')
 </head>

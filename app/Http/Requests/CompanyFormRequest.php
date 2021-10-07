@@ -28,6 +28,7 @@ class CompanyFormRequest extends FormRequest
         return [
             'name'=>['required',Rule::unique('companies')->ignore($id)],
             'phone' =>'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'address'=>'nullable',
             'email'=>'email|nullable',
             'logo'=>'image|nullable|max:2048',
             'website'=>'nullable'

@@ -29,17 +29,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                   {{-- @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> Please correct errors and try again!.
-                            <br/>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                @endif--}}
                     <form role="form" action="{{route('company.update',$data->id)}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
@@ -49,12 +38,6 @@
                                 @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                              {{--   <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$data->name}}" id="name">
-                                    @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Missing field entry company part cannot be left blank</strong>
-                                </span>
-                                @enderror--}}
                             </div>
 
                             <div class="form-group">
@@ -80,12 +63,29 @@
 
                             <div class="form-group">
                                 <label>Logo</label>
-                                <input type="file" name="logo" value="{{$data->logo}}" class="form-control">
+                                <input type="file" name="logo" id="logo" value="{{$data->logo}}" class="form-control">
                             </div>
 
                             @if($data->logo)
-                                <img src="{{Storage::url($data->logo)}}" height="100" alt="">
+                            <div class="form-group">
+                                    <img id="preview-image-before-upload" src="{{Storage::url($data->logo)}}" height="250" alt="">
+                                @else
+                                    <img src="https://www.riobeauty.co.uk/images/product_image_not_found.gif" alt="preview image" style="max-height: 250px;">
+                            </div>
                             @endif
+
+                            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                            <script type="text/javascript">
+                                $(document).ready(function (e) {
+                                    $('#logo').change(function(){
+                                        let reader = new FileReader();
+                                        reader.onload = (e) => {
+                                            $('#preview-image-before-upload').attr('src', e.target.result);
+                                        }
+                                        reader.readAsDataURL(this.files[0]);
+                                    });
+                                });
+                            </script>
 
                             <div class="form-group">
                                 <label>Website</label>

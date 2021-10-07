@@ -30,17 +30,6 @@
                     </div>
                 </div>
                 <div class="card-body">
-                   {{-- @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> Please correct errors and try again!.
-                            <br/>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                @endif--}}
                     <form role="form" action="{{route('company.store')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
@@ -50,11 +39,6 @@
                                 @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
-                              {{--  @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>Missing field entry company part cannot be left blank</strong>
-                                </span>
-                                @enderror--}}
                             </div>
 
                             <div class="form-group">
@@ -80,13 +64,16 @@
 
                             <div class="form-group">
                                 <label>Logo</label>
-                                <input type="file" name="logo" id="logo" class="form-control">
+                                <div class="custom-file">
+                                <input type="file" name="logo" id="logo" class="custom-file-input" value="{{ old('logo')  }}">
+                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                </div>
                                 @error('logo')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <img id="preview-image-before-upload" src="https://www.riobeauty.co.uk/images/product_image_not_found.gif"
+                            <div class="form-group" >
+                                <img id="preview-image-before-upload" height="250" src="https://www.riobeauty.co.uk/images/product_image_not_found.gif"
                                      alt="preview image" style="max-height: 250px;">
                             </div>
                             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -99,6 +86,12 @@
                                         }
                                         reader.readAsDataURL(this.files[0]);
                                     });
+                                });
+                            </script>
+                            <script>
+                                $(".custom-file-input").on("change", function() {
+                                    var fileName = $(this).val().split("\\").pop();
+                                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
                                 });
                             </script>
 

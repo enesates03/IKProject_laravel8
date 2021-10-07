@@ -20,12 +20,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/a', [HomeController::class, 'index'])->name('home.index')->middleware('auth');
-Route::get('/admin/login',[HomeController::class, 'login'])->name('admin_login');
-Route::post('/admin/logincheck', [HomeController::class, 'logincheck'])->name('admin_logincheck');
-Route::get('/admin/logout', [HomeController::class, 'logout'])->name('admin_logout');
+Route::middleware('prevent-back-history')->group(function(){
+    Route::get('/a', [HomeController::class, 'index'])->name('home.index')->middleware('auth');
+    Route::get('/admin/login',[HomeController::class, 'login'])->name('admin_login');
+    Route::post('/admin/logincheck', [HomeController::class, 'logincheck'])->name('admin_logincheck');
+    Route::get('/admin/logout', [HomeController::class, 'logout'])->name('admin_logout');
+});
 
-Route::middleware('auth')->prefix('admin')->group(function () {
+Route::middleware('auth','prevent-back-history')->prefix('admin')->group(function () {
     Route::prefix('company')->group(function () {
         Route::get('/', [CompanyController::class, 'index'])->name('company.index');
         Route::get('create', [CompanyController::class, 'create'])->name('company.create');
@@ -46,7 +48,19 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 });
 
 Route::redirect('/','/a');
+    Route::post('company/import', [CompanyController::class, 'fileImport'])->name('company.import');
+    Route::get('company/export/xlsx', [CompanyController::class, 'fileExport'])->name('company.export');
+    Route::get('company/export/csv', [CompanyController::class, 'fileExportCSV'])->name('company.export.CSV');
+    Route::get('company/export/pdf', [CompanyController::class, 'fileExportPDF'])->name('company.export.PDF');
+    Route::get('company/download',[CompanyController::class, 'fileDowload'])->name('company.download');
 
+    Route::post('employee/import', [EmployeeController::class, 'fileImport'])->name('employee.import');
+    Route::get('employee/export/xlsx', [EmployeeController::class, 'fileExport'])->name('employee.export');
+    Route::get('employee/companyID-export/pdf', [EmployeeController::class, 'fileExportCompanyID'])->name('employee.exportCompanyID');
+    Route::get('employee/export/csv', [EmployeeController::class, 'fileExportCSV'])->name('employee.export.CSV');
+    Route::get('employee/export/pdf', [EmployeeController::class, 'fileExportPDF'])->name('employee.export.PDF');
+    Route::get('employee/download',[EmployeeController::class, 'fileDowload'])->name('employee.download');
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('admin_login'); //dashboard admin_login
+    return view('dashboard'); //dashboard admin_login
 })->name('dashboard');
+
