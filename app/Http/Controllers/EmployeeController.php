@@ -12,6 +12,7 @@ use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -170,7 +171,7 @@ class EmployeeController extends Controller
 
     public function fileDowload()
     {
-        return Storage::download('download/employee_info.xlsx');
+        return Response::download('download/employee_info.xlsx');
     }
 
 }

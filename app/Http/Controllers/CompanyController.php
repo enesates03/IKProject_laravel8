@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CompanyFormRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
@@ -172,7 +173,7 @@ class CompanyController extends Controller
 
     public function fileDowload()
     {
-        return Storage::download('download/company_info.xlsx');
+        return Response::download('download/company_info.xlsx');
     }
 
 }
