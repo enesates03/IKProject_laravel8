@@ -33,7 +33,6 @@ class EmployeeController extends Controller
         if (request()->input('email')){$datalist =$query->where('email' , 'LIKE' ,"%".request()->input('email')."%")->get();}
         if (request()->input('phone')){$datalist =$query->where('phone' , 'LIKE' ,"%".request()->input('phone')."%")->get();}
         if (request()->input('company')){$datalist =$query->where('company' , 'LIKE' ,"%".request()->input('company')."%")->get();}
-
         return view('employee.index',['datalist'=>$datalist,'data'=>$data]);
     }
 

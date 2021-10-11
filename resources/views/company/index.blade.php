@@ -85,14 +85,12 @@
             @if (session()->has('failures'))
                 <div class="card alert alert-dismissible fade show" role="alert" id="alert">
                 <table class="table table-danger">
-
                     <tr>
                         <th>Row</th>
                         <th>Attribute</th>
                         <th>Errors</th>
                     </tr>
                     @foreach (session()->get('failures') as $validation)
-
                         <tr>
                             <td>{{ $validation->row() }}</td>
                             <td>{{ $validation->attribute() }}</td>
@@ -110,12 +108,11 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
             @endif
 
             <div class="card card-primary">
-            <form action="{{ route('company.import') }}" method="POST" enctype="multipart/form-data">
-                @csrf
+                <form action="{{ route('company.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                 <div class="card-body">
                     <div class="float-left row">
                         <div class="form-group">
@@ -136,7 +133,10 @@
                         <div class="ml-2">
                             <button type="submit" class="btn btn-primary">Import Data</button>
                         </div>
-                        <div class="ml-2">
+                       <div class="ml-2">
+{{--                            <a class="btn btn-primary" href="{{route('company.download')}}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Example Exel</a>--}}
+{{--                            <form action="{{route('company.download')}}" method="post" class="d-none" id="logout-form">@csrf</form>--}}
+{{--                            <form action="{{route('company.download')}}" method="post">@csrf<button type="submit" class="btn btn-primary">Example Exel</button></form>--}}
                             <a class="btn btn-primary" href="{{route('company.download')}}">Example Exel</a>
                         </div>
                     </div>
@@ -210,7 +210,6 @@
             </div>
         </section>
     </div>
-
 @endsection
 
 @section('footer')

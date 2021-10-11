@@ -109,7 +109,8 @@ class CompanyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Company $company)
-    {$message='The company deletes successfully';
+    {
+        $message='The company deletes successfully';
         $key='success';
         try{
             $company->delete();
@@ -170,10 +171,12 @@ class CompanyController extends Controller
         return back()->with($key, $message);
 }
 
-
     public function fileDowload()
     {
-        return Response::download('download/company_info.xlsx');
-    }
+        $myFile = public_path("download/company_info.xlsx");
+        $headers = ['Content-Type: application/xlsx'];
+        $newName = 'company_info.xlsx';
 
+        return response()->download($myFile, $newName, $headers);
+    }
 }

@@ -66,7 +66,7 @@
                                 <label>Logo</label>
                                 <div class="custom-file">
                                 <input type="file" name="logo" id="logo" class="custom-file-input" value="{{ old('logo')  }}">
-                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                <label class="custom-file-label" for="exampleInputFile" >Choose file</label>
                                 </div>
                                 @error('logo')
                                 <span class="text-danger">{{ $message }}</span>

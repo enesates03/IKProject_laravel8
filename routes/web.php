@@ -52,7 +52,7 @@ Route::redirect('/','/a');
     Route::get('company/export/xlsx', [CompanyController::class, 'fileExport'])->name('company.export');
     Route::get('company/export/csv', [CompanyController::class, 'fileExportCSV'])->name('company.export.CSV');
     Route::get('company/export/pdf', [CompanyController::class, 'fileExportPDF'])->name('company.export.PDF');
-    Route::get('company/download',[CompanyController::class, 'fileDowload'])->name('company.download');
+    Route::post('company/download',[CompanyController::class, 'fileDowload'])->name('company.download');
 
     Route::post('employee/import', [EmployeeController::class, 'fileImport'])->name('employee.import');
     Route::get('employee/export/xlsx', [EmployeeController::class, 'fileExport'])->name('employee.export');
@@ -61,6 +61,8 @@ Route::redirect('/','/a');
     Route::get('employee/export/pdf', [EmployeeController::class, 'fileExportPDF'])->name('employee.export.PDF');
     Route::get('employee/download',[EmployeeController::class, 'fileDowload'])->name('employee.download');
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard'); //dashboard admin_login
+    return view('dashboard'); //dashboard
 })->name('dashboard');
+
+
 
